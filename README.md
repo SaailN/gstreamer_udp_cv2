@@ -14,3 +14,16 @@ Run the code to read these gstreamer frames to opencv and again transmit via udp
 
 Run the tkinter GUI to diplay the frames:
 ```python3 tkin.py```
+
+
+## Streaming using shared memory in a same system
+sender command
+```
+gst-launch-1.0 v4l2src ! videoconvert ! video/x-raw,format=RGB,width=640,height=480,framerate=30/1 ! shmsink socket-path=/tmp/gstreamer-shm wait-for-connection=true
+```
+
+receiver command:
+```
+gst-launch-1.0 shmsrc socket-path=/tmp/gstreamer-shm ! video/x-raw,format=RGB,width=640,height=480,framerate=30/1 ! videoconvert ! autovideosink
+
+```
